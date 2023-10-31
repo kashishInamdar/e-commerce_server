@@ -60,6 +60,17 @@ app.post("/product" , async (req ,res)=>{
     })
 })
 
+app.get("/product" , async (req , res )=>{
+    const  {name} = req.query;
+    const product = await Product.findOne({name : name});
+
+    res.json({
+        success : true , 
+        data : product,
+        message : "Succcessfully find product",
+    })
+})
+
 
 app.listen(PORT , ()=>{
     console.log(`Server is running on port ${PORT}`)
