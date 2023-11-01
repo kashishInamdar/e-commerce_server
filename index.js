@@ -71,6 +71,45 @@ app.get("/product" , async (req , res )=>{
     })
 })
 
+//  ======== Delete =========
+
+app.delete("/product/:_id", async (req , res)=>{
+    const {_id} = req.params ;
+
+    await Product.deleteOne({_id : _id});
+
+    res.json({
+        success : true,
+        data : {},
+        message : `successfully delete with id : ${_id}`,
+    })
+
+});
+
+app.put("/product/:_id" , async (req , res)=>{
+    const { _id } = req.params ;
+    const {name ,description , price, productImage , brand  } = req.body;
+
+    await Product.updateOne(
+        {_id , _id},
+        {$set : {
+            name : name ,
+            description : description,
+            price : price,
+            productImage : productImage,
+            brand : brand,
+        }}
+    )
+
+    const updatedProduct = await Product.findOne({_id : _id})
+
+    res.json({
+        success : true ,
+        date : updatedProduct ,
+        massage : `Successfully update student with id ${_id}`
+    })
+});
+
 
 app.listen(PORT , ()=>{
     console.log(`Server is running on port ${PORT}`)
